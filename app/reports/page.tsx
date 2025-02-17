@@ -1,6 +1,14 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+"use client";
+import { useState, useEffect } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 export default function ReportsPage() {
   const [dailyRevenue, setDailyRevenue] = useState([]);
@@ -10,31 +18,40 @@ export default function ReportsPage() {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) return;
 
         const headers = {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         };
 
         // Fetch all reports in parallel
         const [revenueRes, spendersRes, categoriesRes] = await Promise.all([
-          fetch('http://localhost:5000/reports/daily-revenue', { headers }),
-          fetch('http://localhost:5000/reports/top-spenders', { headers }),
-          fetch('http://localhost:5000/reports/sales-by-category', { headers })
+          fetch(
+            "https://backendfullstack-6wsf.onrender.com/reports/daily-revenue",
+            { headers }
+          ),
+          fetch(
+            "https://backendfullstack-6wsf.onrender.com/reports/top-spenders",
+            { headers }
+          ),
+          fetch(
+            "https://backendfullstack-6wsf.onrender.com/reports/sales-by-category",
+            { headers }
+          ),
         ]);
 
         const [revenueData, spendersData, categoriesData] = await Promise.all([
           revenueRes.json(),
           spendersRes.json(),
-          categoriesRes.json()
+          categoriesRes.json(),
         ]);
 
         setDailyRevenue(revenueData.revenue);
         setTopSpenders(spendersData.spenders);
         setCategorySales(categoriesData.sales);
       } catch (error) {
-        console.error('Error fetching reports:', error);
+        console.error("Error fetching reports:", error);
       }
     };
 
@@ -65,14 +82,24 @@ export default function ReportsPage() {
         <h2 className="text-2xl font-semibold mb-4">Top Spenders</h2>
         <div className="grid gap-4">
           {topSpenders.map((spender: any) => (
-            <div key={spender.id} className="flex justify-between items-center p-4 bg-background rounded">
+            <div
+              key={spender.id}
+              className="flex justify-between items-center p-4 bg-background rounded"
+            >
               <div>
                 <p className="font-semibold">{spender.name}</p>
                 <p className="text-muted-foreground">{spender.email}</p>
               </div>
               <div className="text-right">
-                <p className="font-bold">${spender.orders.reduce((sum: number, order: any) => sum + order.total, 0).toFixed(2)}</p>
-                <p className="text-sm text-muted-foreground">{spender.orders.length} orders</p>
+                <p className="font-bold">
+                  $
+                  {spender.orders
+                    .reduce((sum: number, order: any) => sum + order.total, 0)
+                    .toFixed(2)}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {spender.orders.length} orders
+                </p>
               </div>
             </div>
           ))}

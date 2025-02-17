@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
-const API_URL = process.env.API_URL || 'http://localhost:9000/api';
+const API_URL =
+  process.env.API_URL || "https://backendfullstack-6wsf.onrender.com/api";
 
 export async function GET(request: Request) {
   try {

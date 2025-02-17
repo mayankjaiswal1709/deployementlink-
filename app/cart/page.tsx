@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { ShoppingBag, Trash2, ArrowLeft } from 'lucide-react';
-import { useCart } from '@/app/lib/cart';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import { ShoppingBag, Trash2, ArrowLeft } from "lucide-react";
+import { useCart } from "@/app/lib/cart";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, total, clearCart } = useCart();
@@ -12,45 +12,48 @@ export default function CartPage() {
 
   const handleCheckout = async () => {
     try {
-      const token = localStorage.getItem('token');
-      
+      const token = localStorage.getItem("token");
+
       if (!token) {
-        router.push('/login');
+        router.push("/login");
         return;
       }
 
       // Decode the JWT token to get userId
-      const tokenData = JSON.parse(atob(token.split('.')[1]));
+      const tokenData = JSON.parse(atob(token.split(".")[1]));
       const userId = tokenData.userId;
 
-      const response = await fetch('http://localhost:5000/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          userId: userId,
-          products: items.map(item => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: 1
-          })),
-          total: items.reduce((sum, item) => sum + item.price, 0)
-        })
-      });
+      const response = await fetch(
+        "https://backendfullstack-6wsf.onrender.com/api/orders/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            userId: userId,
+            products: items.map((item) => ({
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              quantity: 1,
+            })),
+            total: items.reduce((sum, item) => sum + item.price, 0),
+          }),
+        }
+      );
 
       if (response.ok) {
         clearCart();
-        alert('Order placed successfully!');
+        alert("Order placed successfully!");
       } else {
         const error = await response.json();
-        alert(error.message || 'Error creating order');
+        alert(error.message || "Error creating order");
       }
     } catch (error) {
-      console.error('Checkout error:', error);
-      alert('Error processing checkout');
+      console.error("Checkout error:", error);
+      alert("Error processing checkout");
     }
   };
 
@@ -166,7 +169,7 @@ export default function CartPage() {
                   <span>${total.toFixed(2)}</span>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={handleCheckout}
                 className="w-full bg-primary text-primary-foreground px-8 py-3 rounded-md"
               >
