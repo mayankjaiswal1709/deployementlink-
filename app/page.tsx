@@ -7,12 +7,11 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
-  // States to manage login status, user name, and the logout state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    // Check login status and user data from localStorage
+    
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
     if (token && user) {
@@ -21,7 +20,7 @@ export default function Home() {
     }
   }, []);
 
-  // Handle Shop Now button click
+
   const handleShopNow = () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -31,7 +30,7 @@ export default function Home() {
     }
   };
 
-  // Handle Logout
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

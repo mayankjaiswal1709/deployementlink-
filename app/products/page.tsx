@@ -6,21 +6,20 @@ import { ShoppingBag } from "lucide-react";
 import { getProducts } from "@/app/lib/api";
 import { useCart } from "@/app/lib/cart";
 
-// Simulate user authentication (replace with actual auth logic)
 const useAuth = () => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    // Replace with actual logic to fetch user details (e.g., from context or API)
-    const loggedUser = localStorage.getItem("user"); // Simulating login with localStorage
+   
+    const loggedUser = localStorage.getItem("user"); 
     if (loggedUser) {
-      setUser(JSON.parse(loggedUser)); // Set user from localStorage
+      setUser(JSON.parse(loggedUser)); 
     }
   }, []);
 
   const logout = () => {
-    localStorage.removeItem("user"); // Remove user from localStorage
-    setUser(null); // Clear user state and log out
+    localStorage.removeItem("user"); 
+    setUser(null);
   };
 
   return { user, logout };
@@ -41,7 +40,7 @@ export default function ProductsPage() {
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
   const { addItem, items } = useCart();
-  const { user, logout } = useAuth(); // Get user and logout function from the hook
+  const { user, logout } = useAuth(); 
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -81,7 +80,7 @@ export default function ProductsPage() {
                 </button>
               </div>
             ) : (
-              // If not logged in, show login link
+
               <Link href="/login" className="text-foreground">
                 Login
               </Link>

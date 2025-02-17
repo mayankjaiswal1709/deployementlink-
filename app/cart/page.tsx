@@ -35,7 +35,7 @@ export default function CartPage() {
             userId: userId,
             cartItems: items.map((item) => ({
               productId: item.id,
-              quantity: item.quantity, // make sure quantity is included
+              quantity: item.quantity, 
               price: item.price,
             })),
           }),
@@ -47,7 +47,7 @@ export default function CartPage() {
         alert("Order placed successfully!");
       } else {
         const error = await response.json();
-        console.error("Error creating order:", error); // Log the error to the console
+        console.error("Error creating order:", error); 
         alert(error.message || "Error creating order");
       }
     } catch (error) {

@@ -39,20 +39,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-xl">
+        <h1 className="text-3xl font-extrabold text-center text-gray-800">
           {isLogin ? "Login" : "Sign Up"}
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {!isLogin && (
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-3 border rounded-md"
+              className="w-full p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
               required
             />
           )}
@@ -62,7 +62,7 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
             required
           />
 
@@ -71,13 +71,13 @@ export default function LoginPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
             required
           />
 
           <button
             type="submit"
-            className="w-full p-3 bg-primary text-primary-foreground rounded-md"
+            className="w-full p-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all duration-300"
           >
             {isLogin ? "Login" : "Sign Up"}
           </button>
@@ -85,7 +85,7 @@ export default function LoginPage() {
 
         <button
           onClick={() => setIsLogin(!isLogin)}
-          className="w-full text-center text-sm text-muted-foreground"
+          className="w-full text-center text-sm text-gray-600 hover:text-indigo-600 transition-all duration-300"
         >
           {isLogin
             ? "Need an account? Sign up"
