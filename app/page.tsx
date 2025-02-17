@@ -79,7 +79,6 @@ export default function Home() {
                 >
                   Login
                 </Link>
-              
               </div>
             )}
           </nav>
@@ -135,9 +134,68 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-muted py-12 mt-20">
-        <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>&copy; 2024 EcoShop. All rights reserved.</p>
+      <footer className="bg-gradient-to-r from-teal-400 to-blue-500 text-white py-16 mt-20">
+        <div className="container mx-auto px-6 text-center">
+          <h3 className="text-4xl font-semibold mb-6 animate__animated animate__fadeIn">
+            Stay Connected with Us
+          </h3>
+          <p className="text-xl mb-8 opacity-75 animate__animated animate__fadeIn animate__delay-1s">
+            Join our newsletter and get the latest updates on new arrivals,
+            discounts, and more!
+          </p>
+
+          <div className="flex justify-center gap-8 mb-8">
+            <a
+              href="#"
+              className="text-white hover:text-primary transition-all transform hover:scale-110"
+            >
+              <i className="fab fa-facebook-square text-3xl"></i>
+            </a>
+            <a
+              href="#"
+              className="text-white hover:text-primary transition-all transform hover:scale-110"
+            >
+              <i className="fab fa-twitter-square text-3xl"></i>
+            </a>
+            <a
+              href="#"
+              className="text-white hover:text-primary transition-all transform hover:scale-110"
+            >
+              <i className="fab fa-instagram text-3xl"></i>
+            </a>
+            <a
+              href="#"
+              className="text-white hover:text-primary transition-all transform hover:scale-110"
+            >
+              <i className="fab fa-youtube text-3xl"></i>
+            </a>
+          </div>
+
+          <div className="text-lg opacity-75 mb-6">
+            <p>&copy; 2024 EcoShop. All Rights Reserved.</p>
+            <p className="mt-2">
+              <Link href="/privacy-policy" className="hover:underline">
+                Privacy Policy
+              </Link>
+              &nbsp;|&nbsp;
+              <Link href="/terms-of-service" className="hover:underline">
+                Terms of Service
+              </Link>
+            </p>
+          </div>
+
+          <div className="text-sm opacity-50">
+            <p className="mb-4">
+              <Link href="/contact" className="hover:underline">
+                Contact Us
+              </Link>
+            </p>
+            <p>
+              <Link href="/about" className="hover:underline">
+                About Us
+              </Link>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
