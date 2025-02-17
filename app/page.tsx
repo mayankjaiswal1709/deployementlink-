@@ -1,17 +1,32 @@
-'use client';
-import Link from 'next/link';
-import { ShoppingCart, Package } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+"use client";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { ShoppingCart, Package } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
 
+  // States to manage login status and user name
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // Simulate checking the login status (you can replace this with actual logic)
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+    if (token && user) {
+      setIsLoggedIn(true);
+      setUserName(user); // Set user name
+    }
+  }, []);
+
   const handleShopNow = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      router.push('/login');
+      router.push("/login");
     } else {
-      router.push('/products');
+      router.push("/products");
     }
   };
 
@@ -23,12 +38,32 @@ export default function Home() {
             EcoShop
           </Link>
           <nav className="flex items-center gap-6">
-            <Link href="/products" className="text-muted-foreground hover:text-foreground">
+            <Link
+              href="/products"
+              className="text-muted-foreground hover:text-foreground"
+            >
               Products
             </Link>
             <Link href="/cart" className="relative">
               <ShoppingCart className="w-6 h-6" />
             </Link>
+
+            {/* Conditional login/signup or user welcome */}
+            {isLoggedIn ? (
+              <span className="text-muted-foreground">
+                Welcome, {userName}!
+              </span>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Login
+                </Link>
+                
+              </>
+            )}
           </nav>
         </div>
       </header>
@@ -51,10 +86,15 @@ export default function Home() {
 
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Featured Categories</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Featured Categories
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {['Electronics', 'Fashion', 'Home & Living'].map((category) => (
-                <div key={category} className="bg-card rounded-lg p-6 text-center shadow-sm">
+              {["Electronics", "Fashion", "Home & Living"].map((category) => (
+                <div
+                  key={category}
+                  className="bg-card rounded-lg p-6 text-center shadow-sm"
+                >
                   <Package className="w-12 h-12 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold mb-2">{category}</h3>
                   <p className="text-muted-foreground mb-4">

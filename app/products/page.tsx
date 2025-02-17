@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { getProducts } from "@/app/lib/api";
 import { useCart } from "@/app/lib/cart";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
 interface Product {
   id: string;
@@ -23,20 +22,11 @@ export default function ProductsPage() {
   const [search, setSearch] = useState("");
   const { addItem, items } = useCart();
 
-  // Fetch products from both MongoDB and Be Commings API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Fetch products from your existing API (MongoDB)
         const data = await getProducts({ category, search });
-
-        // Fetch products from Be Commings API (or other source)
-        const beCommingsData = await fetchBeCommingsProducts();
-
-        // Combine the data from both sources
-        const allProducts = [...data.products, ...beCommingsData];
-
-        setProducts(allProducts); // Set the combined products to state
+        setProducts(data.products);
       } catch (error) {
         console.error("Failed to fetch products:", error);
       } finally {
@@ -46,21 +36,6 @@ export default function ProductsPage() {
 
     fetchProducts();
   }, [category, search]);
-
-  // Function to fetch products from Be Commings API
-  const fetchBeCommingsProducts = async () => {
-    try {
-      // Replace this with the actual URL or logic to fetch products from Be Commings
-      const response = await fetch(
-        "https://backendfullstack-6wsf.onrender.com/api/products"
-      ); // Example URL
-      const data = await response.json();
-      return data.products; // Assuming the products are inside the 'products' array
-    } catch (error) {
-      console.error("Failed to fetch products from Be Commings:", error);
-      return []; // Return empty array in case of error
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -116,8 +91,11 @@ export default function ProductsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
-              <Card key={product.id} className="transition-transform hover:scale-[1.02]">
-                <CardHeader>
+              <div
+                key={product.id}
+                className="bg-card rounded-lg overflow-hidden shadow-md transition-transform hover:scale-[1.02]"
+              >
+                <Link href={`/products/${product.id}`}>
                   <div className="aspect-square relative overflow-hidden">
                     <img
                       src={product.imageUrl}
@@ -125,21 +103,27 @@ export default function ProductsPage() {
                       className="object-cover w-full h-full"
                     />
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <CardTitle>{product.name}</CardTitle>
-                  <CardDescription>{product.description}</CardDescription>
-                </CardContent>
-                <CardFooter className="flex justify-between items-center">
-                  <span className="text-xl font-bold">${product.price}</span>
-                  <button
-                    onClick={() => addItem(product)}
-                    className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
-                  >
-                    Add to Cart
-                  </button>
-                </CardFooter>
-              </Card>
+                </Link>
+                <div className="p-6">
+                  <Link href={`/products/${product.id}`}>
+                    <h3 className="text-lg font-semibold mb-2">
+                      {product.name}
+                    </h3>
+                  </Link>
+                  <p className="text-muted-foreground mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xl font-bold">${product.price}</span>
+                    <button
+                      onClick={() => addItem(product)}
+                      className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         )}
