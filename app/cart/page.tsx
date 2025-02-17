@@ -19,7 +19,7 @@ export default function CartPage() {
         return;
       }
 
-      // Decode the JWT token to get userId
+     
       const tokenData = JSON.parse(atob(token.split(".")[1]));
       const userId = tokenData.userId;
 
@@ -33,13 +33,11 @@ export default function CartPage() {
           },
           body: JSON.stringify({
             userId: userId,
-            products: items.map((item) => ({
-              id: item.id,
-              name: item.name,
+            cartItems: items.map((item) => ({
+              productId: item.id,
+              quantity: item.quantity, // make sure quantity is included
               price: item.price,
-              quantity: 1,
             })),
-            total: items.reduce((sum, item) => sum + item.price, 0),
           }),
         }
       );
@@ -49,6 +47,7 @@ export default function CartPage() {
         alert("Order placed successfully!");
       } else {
         const error = await response.json();
+        console.error("Error creating order:", error); // Log the error to the console
         alert(error.message || "Error creating order");
       }
     } catch (error) {
